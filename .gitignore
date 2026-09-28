@@ -1,0 +1,12 @@
+.gradle/
+build/
+bin/
+run/
+run-data/
+runs/
+src/generated/
+repo/
+*.log
+/.vscode/launch.json
+/prompt.md
+/.github/modernize/

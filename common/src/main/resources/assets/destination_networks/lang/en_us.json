@@ -1,0 +1,18 @@
+{
+  "block.destination_networks.teleporter_orange": "Teleporter Orange",
+  "block.destination_networks.teleporter_magenta": "Teleporter Magenta",
+  "block.destination_networks.teleporter_brown": "Teleporter Brown",
+  "block.destination_networks.teleporter_black": "Teleporter Black",
+  "block.destination_networks.teleporter_lightgray": "Teleporter Lightgray",
+  "block.destination_networks.teleporter_gray": "Teleporter Gray",
+  "block.destination_networks.teleporter_cyan": "Teleporter Cyan",
+  "block.destination_networks.teleporter_lime": "Teleporter Lime",
+  "block.destination_networks.teleporter_pink": "Teleporter Pink",
+  "block.destination_networks.teleporter_yellow": "Teleporter Yellow",
+  "block.destination_networks.teleporter_purple": "Teleporter Purple",
+  "block.destination_networks.teleporter_blue": "Teleporter Blue",
+  "block.destination_networks.teleporter_white": "Teleporter White",
+  "block.destination_networks.teleporter_lightblue": "Teleporter Lightblue",
+  "block.destination_networks.teleporter_red": "Teleporter Red",
+  "block.destination_networks.teleporter_green": "Teleporter Green"
+}

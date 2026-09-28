@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "id": "${mod_id}",
+  "version": "${version}",
+  "name": "${mod_name}",
+  "description": "${description}",
+  "authors": [
+    "${mod_author}"
+  ],
+  "license": "${license}",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "net.cyootlabs.rocamocha.fabric.DestinationNetworksFabric"
+    ],
+    "client": [
+      "net.cyootlabs.rocamocha.fabric.DestinationNetworksFabricClient"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=${fabric_loader_version}",
+    "fabric-api": "*",
+    "minecraft": "${minecraft_version}",
+    "java": ">=${java_version}"
+  }
+}

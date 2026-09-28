@@ -1,0 +1,58 @@
+plugins {
+    id 'java'
+    id 'com.gradleup.shadow'
+}
+
+// The shared/common classes exist in both loader jars but reference different runtime namespaces
+// (Fabric remaps to intermediary, NeoForge ships Mojang names), so they cannot be merged directly.
+// We relocate the NeoForge copy of the whole mod package into a `.nf` subpackage and merge it with
+// the Fabric jar. Each loader only ever loads its own entry point, so both copies coexist.
+def neoforgeJar = project(':neoforge').tasks.named('jar', Jar)
+
+shadowJar {
+    dependsOn neoforgeJar
+    configurations = []
+    from({ zipTree(neoforgeJar.get().archiveFile.get().asFile) })
+    relocate 'net.cyootlabs.rocamocha', 'net.cyootlabs.rocamocha.nf'
+    archiveClassifier = 'relocated'
+    // Keep the intermediate out of build/libs so it can't be mistaken for a distributable.
+    destinationDirectory = layout.buildDirectory.dir('relocated')
+}
+
+def fabricRemap = project(':fabric').tasks.named('remapJar')
+
+tasks.register('universalJar', Zip) {
+    group = 'build'
+    description = 'Builds a single jar that loads on both Fabric and NeoForge.'
+    dependsOn tasks.named('shadowJar')
+    dependsOn fabricRemap
+    archiveFileName = "${mod_id}-${version}-universal.jar"
+    destinationDirectory = layout.buildDirectory.dir('libs')
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    from({ zipTree(tasks.named('shadowJar').get().archiveFile.get().asFile) })
+    from({ zipTree(fabricRemap.get().archiveFile.get().asFile) })
+}
+
+// The relocated NeoForge jar is only an input to the merge; delete it afterwards so the build
+// output only contains the real distributable.
+tasks.register('deleteRelocatedJar') {
+    doLast {
+        def relocated = tasks.named('shadowJar').get().archiveFile.get().asFile
+        if (relocated.exists() && !relocated.delete()) {
+            logger.warn("Could not delete intermediate {}", relocated)
+        }
+    }
+}
+
+tasks.named('universalJar') {
+    finalizedBy tasks.named('deleteRelocatedJar')
+}
+
+tasks.named('assemble') {
+    dependsOn tasks.named('universalJar')
+}
+
+// The universal project has no sources of its own; its default (empty) jar is not useful.
+tasks.named('jar') {
+    enabled = false
+}

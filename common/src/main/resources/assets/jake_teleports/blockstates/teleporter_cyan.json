@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "jake_teleports:block/teleporter"
+    }
+  }
+}
